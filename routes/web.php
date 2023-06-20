@@ -28,4 +28,6 @@ Route::get('/arquivos', function () {
     return view('files');
 });
 
+ 
 
+Route::get('professionals', 'App\Http\Controllers\DosimetristsController@getProfessionals');

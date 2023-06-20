@@ -1,0 +1,29 @@
+#tableContainer {
+    width: 100%; /* Faz a tabela ocupar a largura total da página */
+    text-align: left;
+    border-collapse: collapse; /* Remove espaços entre as células da tabela */
+}
+
+#tableContainer td, #tableContainer th {
+    padding: 10px; /* Adiciona um pouco de padding para um visual mais espaçoso */
+    border: 1px solid #ddd; /* Adiciona uma borda fina aos elementos da tabela */
+}
+
+#tableContainer tr:nth-child(even) {
+    background-color: #f2f2f2; /* Adiciona uma cor de fundo alternada para o efeito zebra */
+}
+
+#tableContainer tr:hover {
+    background-color: #ddd; /* Adiciona um efeito hover às linhas */
+}
+
+#tableContainer th {
+    background-color: #4CAF50; /* Adiciona uma cor de fundo ao cabeçalho da tabela */
+    color: white; /* Define a cor do texto do cabeçalho para branco */
+}
+.app-footer{
+    display: none!important;
+}
+.analytics-container{
+    display: none!important;   
+}
