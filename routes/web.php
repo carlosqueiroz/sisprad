@@ -21,6 +21,10 @@ Route::get('/', function () {
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
+
+    Route::get('medt/dashboard', [\App\Http\Controllers\MedtController::class, 'dashboard'])->name('medt.dashboard');
+    Route::get('medt/import', [\App\Http\Controllers\MedtController::class, 'importForm'])->name('medt.import.form');
+    Route::post('medt/import', [\App\Http\Controllers\MedtController::class, 'importSubmit'])->name('medt.import.submit');
 });
 
 

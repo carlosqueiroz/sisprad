@@ -132,7 +132,39 @@ class LeiturasDosimetricasBreadSeeder extends Seeder
                 'icon_class' => 'voyager-activity',
                 'color'      => null,
                 'parent_id'  => $parent->id,
+                'order'      => 2,
+            ])->save();
+        }
+
+        $dash = MenuItem::firstOrNew([
+            'menu_id' => $menu->id,
+            'title'   => 'Dashboard MEDt',
+            'route'   => 'medt.dashboard',
+        ]);
+        if (! $dash->exists) {
+            $dash->fill([
+                'url'        => '',
+                'target'     => '_self',
+                'icon_class' => 'voyager-dashboard',
+                'color'      => null,
+                'parent_id'  => $parent->id,
                 'order'      => 1,
+            ])->save();
+        }
+
+        $imp = MenuItem::firstOrNew([
+            'menu_id' => $menu->id,
+            'title'   => 'Importar CSV',
+            'route'   => 'medt.import.form',
+        ]);
+        if (! $imp->exists) {
+            $imp->fill([
+                'url'        => '',
+                'target'     => '_self',
+                'icon_class' => 'voyager-upload',
+                'color'      => null,
+                'parent_id'  => $parent->id,
+                'order'      => 3,
             ])->save();
         }
     }

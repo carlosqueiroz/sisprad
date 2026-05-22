@@ -2,9 +2,12 @@
 
 namespace App;
 
+use App\Mail\LeituraImediataAlerta;
 use App\Services\CondutaMedtService;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class LeituraDosimetrica extends Model
 {
@@ -37,6 +40,34 @@ class LeituraDosimetrica extends Model
         static::saving(function (self $leitura) {
             $leitura->aplicarClassificacao();
         });
+
+        static::saved(function (self $leitura) {
+            if ($leitura->prazo === 'Imediato') {
+                $leitura->dispararAlertaImediato();
+            }
+        });
+    }
+
+    public function dispararAlertaImediato(): void
+    {
+        $recipients = collect(explode(',', (string) env('MEDT_ALERT_RECIPIENTS', '')))
+            ->map(fn ($e) => trim($e))
+            ->filter()
+            ->values()
+            ->all();
+
+        if (empty($recipients)) {
+            return;
+        }
+
+        try {
+            Mail::to($recipients)->send(new LeituraImediataAlerta($this->loadMissing('professional')));
+        } catch (\Throwable $e) {
+            Log::warning('[MEDt] Falha ao enviar alerta de leitura imediata: ' . $e->getMessage(), [
+                'leitura_id' => $this->id,
+                'faixa'      => $this->faixa,
+            ]);
+        }
     }
 
     public function aplicarClassificacao(): void
